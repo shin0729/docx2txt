@@ -21,23 +21,15 @@ def get_tagged_contents(target_list):
         elif tag_open:
             yield item
 
-file_path = 
-target_row = extract_target_row(file_path)
-target_list = split_into_tag_and_content(target_row)
-tagged_contents = get_tagged_contents(target_list)
-for content in get_tagged_contents(target_list):
-    print(content)
+def main():
+    path_docx = input("Enter the file path: ")
+    path_zip = extract_xml.convert_to_zip(path_docx)
+    file_path = extract_xml.extract_xml(path_zip)
+    target_row = extract_target_row(file_path)
+    target_list = split_into_tag_and_content(target_row)
+    tagged_contents = get_tagged_contents(target_list)
+    for content in get_tagged_contents(target_list):
+        print(content)
 
-
-# from pathlib import Path
-# import re
-
-# def extract_contents(file_path):
-#     pattern = re.compile(r"<w:t>(.*?)</w:t>")
-#     contents_list = []
-
-#     with open(file_path, mode="r", encoding="utf-8") as f:
-#         text = f.read()
-#         contents_list = [match.group(1) for match in pattern.finditer(text)]
-
-#     return contents_list
+if __name__ == "__main__":
+    main()
