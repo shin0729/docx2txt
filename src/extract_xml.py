@@ -1,9 +1,23 @@
 from pathlib import Path
-def convert_to_zip(path_docx) -> Path:
-    new_xml = path_docx.with_suffix(".zip")
-    path_docx.rename(new_xml)
+from zipfile import ZipFile
+from tempfile import mkdtemp
+import shutil
 
-def extract_xml(path_zip):
-    base_folder = path_zip.parent
-    for p in base_folder.glob("**/document.xml"):
-        return p
+def extract_xml(path_docx) -> Path:
+    # 一時的なディレクトリを作成
+    temp_dir = Path(mkdtemp())
+    xml_file_path = None
+
+    # docxファイルをzipとして開く
+    with ZipFile(path_docx, 'r') as zip_ref:
+        # ZIP内のすべてのファイルを一時ディレクトリに解凍
+        zip_ref.extractall(temp_dir)
+        # document.xmlを探す
+        xml_file = temp_dir / 'word' / 'document.xml'
+        if xml_file.exists():
+            xml_file_path = xml_file
+
+    # 一時ディレクトリを削除
+    shutil.rmtree(temp_dir)
+
+    return xml_file_path
