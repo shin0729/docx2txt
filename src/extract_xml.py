@@ -1,7 +1,8 @@
 from pathlib import Path
 from zipfile import ZipFile
+from pathlib import Path
+from zipfile import ZipFile
 from tempfile import mkdtemp
-import shutil
 
 def extract_xml(path_docx) -> Path:
     # 一時的なディレクトリを作成
@@ -17,15 +18,6 @@ def extract_xml(path_docx) -> Path:
         if xml_file.exists():
             xml_file_path = xml_file
 
-    # 一時ディレクトリを削除
-    shutil.rmtree(temp_dir)
 
-    return xml_file_path
 
-# 使用例
-path_docx = Path("path/to/your/docxfile.docx")
-document_xml = extract_xml(path_docx)
-if document_xml:
-    print(f"Found document.xml at: {document_xml}")
-else:
-    print("document.xml not found in the docx file.")
+    return xml_file_path, temp_dir
